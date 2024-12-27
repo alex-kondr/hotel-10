@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block center %}
+<div class="card mb-3">
+  <img src="/{{ room.img_url }}" class="card-img-top" alt="image">
+  <div class="card-body">
+    <h5 class="card-title">Номер кімнати: <em>{{ room.number }}</em></h5>
+    <p class="card-text"><em>Поверх: </em>{{ room.floor }}</p>
+    <p class="card-text"><em>Тип кімнати: </em>{{ room.type }}</p>
+    <p class="card-text"><em>Площа: </em>{{ room.squire }}</p>
+    <p class="card-text"><small class="text-body-secondary">Зарезервовано: {% if room.reserved %}Так{% else %}Ні{% endif %}</small></p>
+    <div>
+        <a href="{{ url_for('reserve', room_id=room.id) }}" class="btn btn-success">Забронювати</a>
+        <a href="{{ url_for('del_room' , room_id=room.id) }}" class="btn btn-danger">Видалити кімнату</a>
+        <a href="{{ url_for('edit_room', room_id=room.id) }}" class="btn btn-primary">Редагувати кімнату</a>
+    </div>
+  </div>
+</div>
+{% endblock center %}
