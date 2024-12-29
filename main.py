@@ -1,5 +1,5 @@
 from uuid import uuid4
-import sched
+import random
 
 from flask import Flask, render_template, redirect, request, url_for, flash
 
@@ -18,7 +18,7 @@ def add_room():
             number = request.form.get("number")
             floor = request.form.get("floor")
             type = request.form.get("type")
-            squire = request.form.get("squire")
+            square = request.form.get("square")
             img_name_origin = None
             img_name = None
             img_url = None
@@ -34,7 +34,7 @@ def add_room():
                 number=number,
                 floor=floor,
                 type=type,
-                squire=squire,
+                square=square,
                 img_name_origin=img_name_origin,
                 img_name=img_name,
                 img_url=img_url
@@ -51,6 +51,7 @@ def add_room():
 def index():
     with Session() as session:
         rooms = session.query(Room).all()
+        random.shuffle(rooms)
         return render_template("index.html", rooms=rooms)
 
 
@@ -70,16 +71,18 @@ def edit_room(room_id: int):
             room.number = request.form.get("number")
             room.floor = request.form.get("floor")
             room.type = request.form.get("type")
-            room.squire = request.form.get("squire")
+            room.square = request.form.get("square")
+            room.reserved = True if request.form.get("reserved") else False
 
             file = request.files.get("img")
             if file and file.filename:
                 room.img_name_origin = file.filename
                 room.img_name = uuid4().hex + "." + file.filename.split(".")[-1]
-                img_url = f"/static/img/{room.img_name}"
-                file.save(img_url)
+                room.img_url = f"static/img/{room.img_name}"
+                file.save(room.img_url)
 
             session.commit()
+            flash("Інформацію про кімнату успішно оновлено")
             return redirect(url_for("get_room", room_id=room_id))
 
         return render_template("edit_room.html", room=room)
@@ -91,6 +94,7 @@ def del_room(room_id: int):
         room = session.query(Room).where(Room.id == room_id).first()
         session.delete(room)
         session.commit()
+        flash(f"Кімнату з номером {room.number} успішно видалено")
         return redirect(url_for("index"))
 
 

@@ -13,7 +13,7 @@ class Room(Base):
     number: Mapped[int] = mapped_column()
     floor: Mapped[int] = mapped_column()
     type: Mapped[str] = mapped_column(String(50))
-    squire: Mapped[Optional[float]] = mapped_column(nullable=True)
+    square: Mapped[Optional[float]] = mapped_column(nullable=True)
     img_name_origin: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     img_name: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     img_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)

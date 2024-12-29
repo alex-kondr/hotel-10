@@ -20,21 +20,19 @@
   </symbol>
 </svg>
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class=flashes>
-        {% for message in messages %}
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-            <div>
-                {{ message }}
-            </div>
-        </div>
-        {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+  {% for message in messages %}
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                  {{ message }}
+                </div>
+          {% endfor %}
+          </ul>
+      {% endif %}
+  {% endwith %}
     {% include "navigation.html" %}
 
     {% block content %}
